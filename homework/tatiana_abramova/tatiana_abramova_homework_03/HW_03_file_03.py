@@ -3,11 +3,9 @@
 
 from math import sqrt
 
-
 a = 4
 b = 16
 result1 = (a + b) / 2
 result2 = (sqrt(a * b))
 print("среднее арифметическое:", result1)
 print("среднее геометрическое:", result2)
-
