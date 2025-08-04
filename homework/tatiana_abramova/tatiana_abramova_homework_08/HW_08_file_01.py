@@ -13,6 +13,7 @@
 
 import random
 
+
 def calculate_final_salary():
     salary = int(input("Введите значение salary: "))
     bonus = random.choice([True, False])
@@ -23,6 +24,7 @@ def calculate_final_salary():
         final_salary = salary
 
     return f"{salary}, {bonus} - '${final_salary}'"
+
 
 result = calculate_final_salary()
 print(result)
