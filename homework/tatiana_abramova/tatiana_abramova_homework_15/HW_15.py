@@ -27,7 +27,7 @@ cursor.executemany(
 # 3. Создайте группу (group) и определите своего студента туда
 cursor.execute("INSERT INTO `groups` (title, start_date, end_date) VALUES ('Python_for_AQA','may 2025', 'sep 2025' )")
 group_id = cursor.lastrowid
-cursor.execute(f"UPDATE students SET group_id = {group_id} WHERE id ={student_id}")
+cursor.execute("UPDATE students SET group_id = %s WHERE id = %s", (group_id, student_id))
 
 # 4. Создайте несколько учебных предметов (subjects)
 cursor.execute("INSERT INTO subjects (title) VALUES ('Python OOP Practice')")
@@ -60,19 +60,19 @@ db.commit()
 
 # Получите информацию из базы данных:
 # Все оценки студента
-cursor.execute(f'SELECT value from marks WHERE student_id = {student_id}')
+cursor.execute("SELECT value FROM marks WHERE student_id = %s", (student_id,))
 all_marks = cursor.fetchall()
 print(f'All marks of the student: {all_marks}')
 
 # Все книги, которые находятся у студента
-cursor.execute(f'SELECT title FROM books WHERE taken_by_student_id = {student_id}')
+cursor.execute("SELECT title FROM books WHERE taken_by_student_id = %s", (student_id,))
 all_books = cursor.fetchall()
 print(f'All books assigned to the student: {all_books}')
 
 # Для вашего студента выведите всё, что о нем есть в базе: группа, книги, оценки с названиями занятий
 # и предметов (всё одним запросом с использованием Join)
 select_query = '''
-SELECT 
+SELECT
     s.id AS student_id,
     s.name,
     s.second_name,
