@@ -10,7 +10,10 @@ def create_object():
     }
     response = requests.post(f"{BASE_URL}/object", json=body)
     print("CREATE:", response.status_code, response.json())
-    return response.json().get("id")
+    assert response.status_code == 200, f"Ошибка CREATE: {response.text}"
+    resp_json = response.json()
+    obj_id = resp_json["id"]
+    return obj_id
 
 
 def update_object_put(obj_id):
@@ -33,9 +36,10 @@ def update_object_patch(obj_id):
 def delete_object(obj_id):
     response = requests.delete(f"{BASE_URL}/object/{obj_id}")
     print("DELETE:", response.status_code)
+    assert response.status_code == 200, f"Ошибка DELETE: {response.text}"
 
 
-obj_id = create_object()
+obj_id=create_object()
 update_object_put(obj_id)
 update_object_patch(obj_id)
 delete_object(obj_id)
