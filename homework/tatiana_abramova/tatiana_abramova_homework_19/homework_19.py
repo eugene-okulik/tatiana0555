@@ -39,7 +39,7 @@ def delete_object(obj_id):
     assert response.status_code == 200, f"Ошибка DELETE: {response.text}"
 
 
-obj_id=create_object()
+obj_id = create_object()
 update_object_put(obj_id)
 update_object_patch(obj_id)
 delete_object(obj_id)
