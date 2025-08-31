@@ -21,7 +21,7 @@ def create_delete_test_object():
     body = {
         "name": "First object",
         "data": {"color": "white", "size": "big"}
-        }
+    }
     request = requests.post('http://objapi.course.qa-practice.com/object', json=body)
     obj_id = request.json()['id']
     yield obj_id
@@ -33,7 +33,7 @@ def create_test_object():
     body = {
         "name": "test_name",
         "data": {"color": "blue", "size": "medium"}
-        }
+    }
     request = requests.post('http://objapi.course.qa-practice.com/object', json=body)
     obj_id = request.json()['id']
     return obj_id
