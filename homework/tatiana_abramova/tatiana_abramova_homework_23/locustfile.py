@@ -1,7 +1,9 @@
 from locust import task, HttpUser
 import random
 
+
 class ObjectUser(HttpUser):
+
     def on_start(self):
         self.object_id = None
 
