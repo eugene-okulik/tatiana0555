@@ -1,10 +1,7 @@
 from locust import task, HttpUser
 import random
 
-
 class ObjectUser(HttpUser):
-
-
     def on_start(self):
         self.object_id = None
 
@@ -52,7 +49,7 @@ class ObjectUser(HttpUser):
         )
 
     @task(1)
-    def path_object(self):
+    def patch_object(self):
         create_test_object = self.client.post(
             '/object',
             json={"name": "test object3", "data": {"color": "white", "size": "small"}},
