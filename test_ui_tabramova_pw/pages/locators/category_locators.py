@@ -1,0 +1,13 @@
+desks_select_loc = '//span[@class="d-inline-block" and text()="Desks"]'
+furniture_select_loc = '#products_grid li:nth-child(2) span'
+dropdown_button_loc = '#products_grid div.o_sortby_dropdown > a'
+dropdown_menu_loc = 'div.dropdown-menu.show'
+price_low_to_high_loc = '//a[@class="dropdown-item" and contains(., "Price - Low to High")]'
+product_elements_loc = 'td.oe_product'
+title_loc = 'h6.o_wsale_products_item_title a'
+price_text_loc = 'span.oe_currency_value'
+product_locator_loc = 'h6.o_wsale_products_item_title a'
+components_loc = "//span[text()='Components']"
+new_list_produt_names = 'h6.o_wsale_products_item_title a'
+products_loc = 'div.o_wsale_product_information'
+name_loc = 'h6.o_wsale_products_item_title a'
