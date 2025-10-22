@@ -12,23 +12,15 @@ class DesksPage(BasePage):
     def check_name_desks_selected_category_is(self, text: str):
         selected_category = self.page.locator(loc.desks_select_loc)
         expect(selected_category).to_be_visible()
-        actual_text = selected_category.inner_text().strip()
-        print(f"Название категории: {actual_text}")
-        assert actual_text == text, f"Ожидали '{text}', а получили '{actual_text}'"
+        expect(selected_category).to_have_text(text)
+        print(f"Название категории: {selected_category.text_content()}")
 
     @allure.step('Check sorting price low to high')
     def check_sorted_price_low_to_high(self):
-        # 1. Клик по кнопке дроп-меню
         dropdown_button = self.page.locator(loc.dropdown_button_loc)
         dropdown_button.click()
-
-        # 2. Ждём появления меню
         expect(self.page.locator(loc.dropdown_menu_loc)).to_be_visible()
-
-        # 3. Выбор "Price - Low to High"
         self.page.locator(loc.price_low_to_high_loc).click()
-
-        # 4. Ждём загрузки пересортированных товаров
         self.page.wait_for_timeout(1500)  # небольшая пауза на перестроение
         product_elements = self.page.locator(loc.product_elements_loc)
         expect(product_elements.first).to_be_visible()
@@ -84,7 +76,6 @@ class DesksPage(BasePage):
 
         print('Список товаров после применения фильтра "Components":', new_product_names)
 
-        # 4. Проверки
         assert new_product_names != initial_products, "Фильтр 'Components' не сработал: список товаров не изменился!"
         assert len(new_product_names) < len(initial_products), (
             f"Фильтр 'Components' не уменьшил количество товаров: "
@@ -138,6 +129,10 @@ class DesksPage(BasePage):
         if invalid_products:
             for name, price in invalid_products:
                 print(f"Товар '{name}' не соответствует диапазону цен: {price} $")
-            assert False, f"Найдены товары вне диапазона {min_price}-{max_price} $"
+
+            expect(
+                len(invalid_products) == 0,
+                f"Найдены товары вне диапазона {min_price}-{max_price} $"
+            ).to_be_truthy()
         else:
             print(f"Все товары соответствуют диапазону цен {min_price}-{max_price} $.")

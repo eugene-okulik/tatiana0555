@@ -8,7 +8,7 @@ class ProductPage(BasePage):
     page_url = '/shop/furn-9999-office-design-software-7?category=9'
 
     @allure.step('Check page Terms and conditions')
-    def check_page_terms_and_conditions(self, expected_text: str):
+    def check_page_terms_and_conditions(self, text: str):
         # Кликаем по ссылке "Terms and Conditions"
         self.page.locator(loc.terms_link_loc).click()
         self.page.wait_for_url("**/terms")
@@ -16,10 +16,8 @@ class ProductPage(BasePage):
         # Проверяем, что текст соответствует ожидаемому
         standard_terms = self.page.locator(loc.standard_terms_loc)
         expect(standard_terms).to_be_visible()
-
-        actual_text = standard_terms.inner_text().strip()
-        print(f"Actual text: '{actual_text}'")
-        assert actual_text == expected_text, f"Ожидали '{expected_text}', а получили '{actual_text}'"
+        expect(standard_terms).to_have_text(text)
+        print(f"Заголовок секции: {standard_terms.text_content()}")
         self.page.go_back()
 
     @allure.step('Check price of product by quantify')
@@ -59,6 +57,7 @@ class ProductPage(BasePage):
         cart_total = float(self.page.locator(loc.cart_price_text_loc).inner_text().strip().replace(',', ''))
         expected_total = round(unit_price * quantity_value, 2)
         print(f"Ожидали: {expected_total}, получили: {cart_total}")
+
         assert cart_total == expected_total, f"Ошибка: ожидали {expected_total}, а получили {cart_total}"
         print(message)
 
@@ -105,8 +104,8 @@ class ProductPage(BasePage):
         self.page.wait_for_url("**/address")
         self.page.locator(loc.button_continue_checkout_loc).click()
 
-        note = self.page.locator(loc.note_empty_fields_loc)
+        note = self.page.locator(loc.note_empty_fields_loc).first
         expect(note).to_be_visible()
-        assert note.inner_text().strip() == "Some required fields are empty."
+        expect(note).to_contain_text(message)
 
         print("Появилось предупреждение:", message)
